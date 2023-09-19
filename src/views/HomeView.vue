@@ -1,26 +1,26 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { RecommendStatus } from '../types'
+import { restaurantStatusList } from '../constants'
 
 interface Restaurant {
   name?: string
-  status?: RecommendedStatus
+  status?: RecommendStatus
   dishes?: Dish[]
 }
 
 interface Dish {
   name: string
   halal?: Halal
-  status?: RecommendedStatus
+  status?: RecommendStatus
 }
 
 type Halal = 'halal' | 'non halal'
 
-type RecommendedStatus = 'Want to Try' | 'Recommended' | ' Do not Recommend ' | 'Must Try'
-
-const statusList = ['Want to Try', 'Recommended', 'Do Not Recommend', 'Must Try']
-
 const restaurantList = ref<Restaurant[]>([])
-const newRestaurant = ref<Restaurant>({})
+const newRestaurant = ref<Restaurant>({
+  status: 'Want to Try'
+})
 
 function addRestaurant() {
   restaurantList.value.push({
@@ -45,7 +45,7 @@ function addRestaurant() {
       <div>
         <label for="restaurant-status">Restaurant Status</label>
         <select name="restaurant-status" id="restaurant-status" v-model="newRestaurant.status">
-          <option v-for="status in statusList" :value="status">
+          <option v-for="status in restaurantStatusList" :value="status">
             {{ status }}
           </option>
         </select>
